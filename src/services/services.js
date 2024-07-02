@@ -1,6 +1,6 @@
 import axios from "axios";
 
-var baseurl = "";
+var baseurl = "http://ec2-18-116-44-178.us-east-2.compute.amazonaws.com:3200";
 const apiClient = axios.create({
   baseURL: baseurl,
   headers: {
