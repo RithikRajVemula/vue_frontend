@@ -86,7 +86,7 @@ async function signup() {
   <div>
     <v-row justify="center">
       <v-col cols="12" class="text-center">
-        <h2 class="my-6" style="color:#196CA2;">Story Teller</h2>
+        <h2 class="my-6" style="color:#196CA2;">Resume Generation</h2>
       </v-col>
     </v-row>
 
