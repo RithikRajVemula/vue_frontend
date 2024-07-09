@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import UserServices from "../services/UserServices.js";
-import Snackbar from "../components/Snack.vue";
+import Snackbar from "../components/snackbar/Snack.vue";
 import { updateSnackBar } from "../utils/utils";
 
 const router = useRouter();

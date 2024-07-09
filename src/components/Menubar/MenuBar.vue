@@ -2,8 +2,8 @@
 import ocLogo from "/oc_logo.png";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import UserServices from "../services/UserServices";
-import Snackbar from "./Snack.vue";
+import UserServices from "../../services/UserServices";
+import Snackbar from "../snackbar/Snack.vue";
 
 const router = useRouter();
 const snackbar = ref({
@@ -20,7 +20,7 @@ const routes = [
 ];
 const adminRoutes = [
   { name: "Manage Users", path: "/manage-users" },
-  { name: "Manage Resume's", path: "/manage-resume" },
+  { name: "Manage Resume's", path: "/all-resumes" },
   { name: "Manage Skills", path: "/manage-skills" },
 ];
 

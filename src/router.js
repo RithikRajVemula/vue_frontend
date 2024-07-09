@@ -27,6 +27,11 @@ const router = createRouter({
       path: "/home",
       redirect: "/",
     },
+    {
+      path: "/create-resume",
+      name: "create-resume",
+      component: () => import("./views/CreateResume.vue"),
+    },
   ],
 });
 
