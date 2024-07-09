@@ -1,0 +1,79 @@
+<template>
+    <div>
+    <!-- Step 1: User Details -->
+    <v-card v-if="currentStep === 1" class="mx-auto pa-12 pb-8" elevation="8" rounded="lg">
+      <UserDetails :userDetails="resumeDetails.userDetails" />
+    </v-card>
+
+    <!-- Step 2: Educations -->
+    <v-card v-if="currentStep === 2" class="mx-auto pa-12 pb-8" elevation="8" rounded="lg">
+      <Educations :educations="resumeDetails.education" />
+    </v-card>
+
+    <!-- Step 3: Experiences -->
+    <v-card v-if="currentStep === 3" class="mx-auto pa-12 pb-8" elevation="8" rounded="lg">
+      <Experiences :experiences="resumeDetails.experiences" />
+    </v-card>
+
+    <!-- Navigation buttons -->
+    <v-row justify="end" class="mt-4"> 
+      <v-col cols="2">
+        <v-btn v-if="currentStep > 1" color="grey" block @click="prevStep">Back</v-btn>
+      </v-col>
+      <v-col cols="2">
+        <v-btn v-if="currentStep < totalSteps" color="blue" block @click="nextStep">Next</v-btn>
+        <div v-else>
+          <v-btn v-if="!edit"  color="green" @click="createResume">Create Resume</v-btn>
+          <v-btn v-else  color="green" @click="createResume">Update Resume</v-btn>
+        </div>
+      </v-col>
+    </v-row>
+    </div>
+</template>../userDetails/UserDetails.vue
+
+<script setup>
+import { ref, watch, toRefs, defineEmits } from 'vue';
+import UserDetails from '../users/userDetails/UserDetails.vue';
+import Educations from '../education/Educations.vue';
+import Experiences from '../experiences/Experiences.vue';
+
+const currentStep = ref(1);
+const totalSteps = 8; // Total number of steps/components
+const props = defineProps({
+  resumeDetails: {
+    type: Array,
+    required: true
+  },
+  edit: {
+    type: Boolean,
+  }
+});
+
+const { resumeDetails, edit } = toRefs(props);
+const emit = defineEmits(["save"]);
+
+const nextStep = () => {
+  if (currentStep.value < totalSteps) {
+    currentStep.value++;
+  }
+    console.log("new",resumeDetails.value)
+};
+
+const prevStep = () => {
+  if (currentStep.value > 1) {
+    currentStep.value--;
+  }
+};
+
+const createResume = () => {
+  // Logic to create resume and make API call
+  emit("save");
+};
+
+</script>
+
+<style>
+h3 {
+  margin-bottom: 10px;
+}
+</style>
