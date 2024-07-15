@@ -2,7 +2,7 @@
   <div>
     <v-row justify="center">
       <v-col class="text-center">
-        <h1 style="color:#196CA2;font-style: italic;">Experiences</h1>
+        <h1 style="color:#196CA2;font-style: italic;">Work Experience</h1>
       </v-col>
     </v-row>
     <!-- Chips for Experiences -->

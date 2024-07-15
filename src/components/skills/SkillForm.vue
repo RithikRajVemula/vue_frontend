@@ -11,7 +11,12 @@
             label="Skill"
             variant="outlined"
             allow-overflow
-          ></v-combobox>
+          >
+            >
+            <template v-slot:label>
+              Skill <span style="color: red">*</span>
+            </template>
+          </v-combobox>
         </v-col>
         <v-col justify="center">
           <v-btn color="primary" @click="save" style="margin-top:10px;">Save</v-btn>
