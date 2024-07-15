@@ -35,6 +35,10 @@
       <HonorAwards :honorAwards="resumeDetails.honorAwards" />
     </v-card>
 
+    <v-card v-if="currentStep === 8" class="mx-auto pa-12 pb-8" elevation="8" rounded="lg">
+      <ReviewResume :resumeDetails="resumeDetails" />
+    </v-card>
+
     <!-- Navigation buttons -->
     <v-row justify="end" class="mt-4"> 
       <v-col cols="2">
@@ -61,6 +65,7 @@ import Projects from '../projects/Projects.vue';
 import ResumeSkills from '../skills/ResumeSkills.vue';
 import ExtraCurricular from '../extraCurriculars/ExtraCurricular.vue';
 import HonorAwards from '../honorAwards/HonorAwards.vue';
+import ReviewResume from '../reviewResume/ReviewResume.vue';
 
 const currentStep = ref(1);
 const totalSteps = 8; // Total number of steps/components
