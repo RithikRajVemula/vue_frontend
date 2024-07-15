@@ -2,35 +2,35 @@
   <div>
     <h3>{{ editMode ? "Edit Project" : "Add Project" }}</h3>
     <v-form ref="form" @submit.prevent="save">
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-            variant="outlined"
-              v-model="localProject.done_at"
-              label="Employer Name (where is it done?) (required)"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-            variant="outlined"
-              v-model="localProject.title"
-              label="Title (required)"
-              required
-            ></v-text-field>
-          </v-col>
+      <v-row>
         <v-col cols="12">
-            <v-textarea
-            variant="outlined"
-              color="primary"
-              v-model="localProject.information"
-              label="Information (required)"
-            ></v-textarea>
-          </v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-btn color="primary" @click="save">Save</v-btn>
-        </v-row>
+          <TextBox
+            required
+            v-model:value="localProject.done_at"
+            title="Employer Name (where is it done?)"
+            id="project-employer"
+          />
+        </v-col>
+        <v-col cols="6">
+          <TextBox
+            required
+            v-model:value="localProject.title"
+            title="Title"
+            id="project-title"
+          />
+        </v-col>
+        <v-col cols="12">
+          <TextArea
+            required
+            v-model:value="localProject.information"
+            title="Information"
+            id="project-information"
+          />
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-btn color="primary" @click="save">Save</v-btn>
+      </v-row>
     </v-form>
     <Snackbar :snackbar="snackbar" />
   </div>
@@ -40,6 +40,8 @@
 import { ref, watchEffect, defineProps, defineEmits } from "vue";
 import Snackbar from "../snackbar/Snack.vue"
 import { updateSnackBar } from '../../utils/utils';
+import TextBox from "../textbox/Textbox.vue"
+import TextArea from '../textarea/Textarea.vue';
 
 const props = defineProps({
   project: {

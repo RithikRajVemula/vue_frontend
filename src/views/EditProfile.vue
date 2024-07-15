@@ -1,166 +1,66 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import UserServices from '../services/UserServices.js';
-import Snackbar from '../components/snackbar/Snack.vue';
-import { updateSnackBar } from '../utils/utils';
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import UserServices from "../services/UserServices.js";
+import Snackbar from "../components/snackbar/Snack.vue";
+import { updateSnackBar } from "../utils/utils";
+import EditUserForm from "../components/users/editUser/EditUserForm.vue";
 
 const router = useRouter();
 const snackbar = ref({
   value: false,
-  color: '',
-  text: '',
+  color: "",
+  text: "",
 });
-
 const user = ref({
-  first_name: '',
-  last_name: '',
-  email: '',
-  phone_number: '',
-  address: '',
-  linkedin_url: '',
-  portfolio: '',
-  professional_summary: '',
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone_number: "",
+  address: "",
+  linkedin_url: "",
+  portfolio: "",
+  professional_summary: "",
   is_admin: false,
 });
-const visible = ref(false);
 
 onMounted(() => {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const storedUser = JSON.parse(localStorage.getItem("user"));
   if (!storedUser) {
-    router.push({ name: 'signin' });
+    router.push({ name: "signin" });
   } else {
     user.value = {
       first_name: storedUser.first_name,
       last_name: storedUser.last_name,
       email: storedUser.email,
-      phone_number: storedUser.phone_number || '',
-      address: storedUser.address || '',
-      linkedin_url: storedUser.linkedin_url || '',
-      portfolio: storedUser.portfolio || '',
-      professional_summary: storedUser.professional_summary || '',
+      phone_number: storedUser.phone_number || "",
+      address: storedUser.address || "",
+      linkedin_url: storedUser.linkedin_url || "",
+      portfolio: storedUser.portfolio || "",
+      professional_summary: storedUser.professional_summary || "",
       is_admin: storedUser.is_admin || false,
-      id: storedUser.id
+      id: storedUser.id,
     };
   }
 });
 
-async function updateProfile() {
-  try {
-    if (
-      user.value.first_name.length === 0 ||
-      user.value.last_name.length === 0 ||
-      user.value.email.length === 0 || user.value.phone_number.length === 0 || user.value.address.length === 0
-    ) {
-      snackbar.value = updateSnackBar('Please fill in all required fields', 'error');
-      return;
-    }
-
-    const { data } = await UserServices.updateUser(user.value);
-    const { data: userData } = await UserServices.getUserById(user.value.id);
-    window.localStorage.setItem('user', JSON.stringify(userData));
-    snackbar.value = updateSnackBar('Profile updated successfully!', 'green');
-    router.push({ name: 'home' });
-  } catch (error) {
-    console.log(error);
-    snackbar.value = updateSnackBar(
-      error?.response?.data?.message || 'Update failed!',
-      'error'
-    );
-  }
-}
+const afterUpdate = async () => {
+  console.log("after update...");
+  const { data: userData } = await UserServices.getUserById(user.value.id);
+  window.localStorage.setItem("user", JSON.stringify(userData));
+  snackbar.value = updateSnackBar("Profile updated successfully!", "green");
+  router.push({ name: "home" });
+};
 </script>
 
 <template>
   <div>
     <v-row justify="center">
       <v-col cols="12" class="text-center">
-        <h2 class="my-6" style="color:#196CA2;">Edit Profile</h2>
+        <h2 class="my-6" style="color: #196ca2">Edit Profile</h2>
       </v-col>
     </v-row>
-
-    <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
-      <div class="text-subtitle-1 text-medium-emphasis">First Name</div>
-      <v-text-field
-        v-model="user.first_name"
-        density="compact"
-        placeholder="First Name"
-        prepend-inner-icon="mdi-account-outline"
-        variant="outlined"
-      ></v-text-field>
-
-      <div class="text-subtitle-1 text-medium-emphasis">Last Name</div>
-      <v-text-field
-        v-model="user.last_name"
-        density="compact"
-        placeholder="Last Name"
-        prepend-inner-icon="mdi-account-outline"
-        variant="outlined"
-      ></v-text-field>
-
-      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
-      <v-text-field
-        v-model="user.email"
-        density="compact"
-        placeholder="Email address"
-        prepend-inner-icon="mdi-email-outline"
-        variant="outlined"
-        readonly
-      ></v-text-field>
-
-      <div class="text-subtitle-1 text-medium-emphasis">Phone Number</div>
-      <v-text-field
-        v-model="user.phone_number"
-        density="compact"
-        placeholder="Phone Number"
-        prepend-inner-icon="mdi-phone-outline"
-        variant="outlined"
-      ></v-text-field>
-
-      <div class="text-subtitle-1 text-medium-emphasis">Address</div>
-      <v-text-field
-        v-model="user.address"
-        density="compact"
-        placeholder="Address"
-        prepend-inner-icon="mdi-home-outline"
-        variant="outlined"
-      ></v-text-field>
-
-      <div class="text-subtitle-1 text-medium-emphasis">LinkedIn URL</div>
-      <v-text-field
-        v-model="user.linkedin_url"
-        density="compact"
-        placeholder="LinkedIn URL"
-        prepend-inner-icon="mdi-linkedin"
-        variant="outlined"
-      ></v-text-field>
-
-      <div class="text-subtitle-1 text-medium-emphasis">Portfolio</div>
-      <v-text-field
-        v-model="user.portfolio"
-        density="compact"
-        placeholder="Portfolio"
-        prepend-inner-icon="mdi-web"
-        variant="outlined"
-      ></v-text-field>
-
-      <div class="text-subtitle-1 text-medium-emphasis">Professional Summary</div>
-      <v-textarea
-        v-model="user.professional_summary"
-        density="compact"
-        placeholder="Professional Summary"
-        variant="outlined"
-      ></v-textarea>
-
-      <v-checkbox
-        v-model="user.is_admin"
-        label="Register as admin"
-      ></v-checkbox>
-
-      <v-btn class="mb-8" color="blue" size="large" variant="tonal" block @click="updateProfile">
-        Update
-      </v-btn>
-    </v-card>
+    <EditUserForm :user="user" @afterUpdate="afterUpdate" :isAdmin="false" />
     <Snackbar :snackbar="snackbar" />
   </div>
 </template>

@@ -2,66 +2,56 @@
   <div>
     <h3>{{ editMode ? "Edit Education" : "Add Education" }}</h3>
     <v-form ref="form" @submit.prevent="save" v-model="validForm">
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              variant="outlined"
-              v-model="localEducation.university_name"
-              label="University Name (required)"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              variant="outlined"
-              v-model="localEducation.course"
-              label="Course (required)"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              variant="outlined"
-              v-model="localEducation.specialization"
-              label="Specialization"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              variant="outlined"
-              v-model="localEducation.gpa"
-              label="GPA"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              variant="outlined"
-              v-model="localEducation.location"
-              label="Location (required)"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              variant="outlined"
-              color="primary"
-              v-model="localEducation.from_date"
-              label="From Date (required)"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              variant="outlined"
-              color="primary"
-              v-model="localEducation.to_date"
-              label="To Date"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-btn color="primary" @click="save">Save</v-btn>
-        </v-row>
+      <v-row>
+        <v-col cols="12">
+          <TextBox
+            required
+            v-model:value="localEducation.university_name"
+            title="University Name"
+            id="university-name"
+          />
+        </v-col>
+        <v-col cols="12">
+          <TextBox
+            required
+            v-model:value="localEducation.course"
+            title="Major"
+            id="course"
+          />
+        </v-col>
+        <v-col cols="6">
+          <TextBox
+            v-model:value="localEducation.specialization"
+            title="Specialization"
+            id="specialization"
+          />
+        </v-col>
+        <v-col cols="6">
+          <TextBox
+            v-model:value="localEducation.gpa"
+            title="GPA"
+            id="gpa"
+          />
+        </v-col>
+        <v-col cols="6">
+          <TextBox
+            required
+            v-model:value="localEducation.from_date"
+            title="From Date"
+            id="from-date"
+          />
+        </v-col>
+        <v-col cols="6">
+          <TextBox
+            v-model:value="localEducation.to_date"
+            title="To Date"
+            id="to-date"
+          />
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-btn color="primary" @click="save">Save</v-btn>
+      </v-row>
     </v-form>
     <Snackbar :snackbar="snackbar" />
   </div>
@@ -71,6 +61,7 @@
 import { ref, watchEffect, defineProps, defineEmits } from "vue";
 import { updateSnackBar } from '../../utils/utils';
 import Snackbar from "../snackbar/Snack.vue"
+import TextBox from "../textbox/Textbox.vue"
 
 const props = defineProps({
   education: {
@@ -95,7 +86,7 @@ watchEffect(() => {
 });
 
 const save = () => {
-  if (!localEducation.value.university_name || !localEducation.value.course || !localEducation.value.location || !localEducation.value.from_date) {
+  if (!localEducation.value.university_name || !localEducation.value.course || !localEducation.value.from_date) {
     snackbar.value = updateSnackBar('Please fill in all required fields.', 'error');
   } else {
     console.log('Save:', localEducation.value);
