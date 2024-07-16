@@ -180,12 +180,7 @@ async function signup() {
           placeholder="Professional Summary"
           variant="outlined"
         ></v-textarea>
-
-        <v-checkbox
-          v-model="user.is_admin"
-          label="Register as admin"
-        ></v-checkbox>
-
+        
         <v-row class="mb-8">
           <v-col>
             <v-btn color="grey" size="large" variant="tonal" block @click="previousStep">
