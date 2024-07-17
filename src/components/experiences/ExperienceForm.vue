@@ -20,7 +20,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <TextBox
+          <DatePicker
             required
             v-model:value="localExperience.from_date"
             title="From Date"
@@ -28,7 +28,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <TextBox
+          <DatePicker
             v-model:value="localExperience.to_date"
             title="To Date"
             id="to-date"
@@ -54,9 +54,10 @@
 <script setup>
 import { ref, watchEffect, defineProps, defineEmits } from "vue";
 import Snackbar from "../snackbar/Snack.vue"
-import { updateSnackBar } from '../../utils/utils';
+import { updateSnackBar, isDateBefore } from '../../utils/utils';
 import TextBox from "../textbox/Textbox.vue"
 import TextArea from '../textarea/Textarea.vue';
+import DatePicker from "../datePicker/DatePicker.vue"
 
 const props = defineProps({
   experience: {
@@ -83,6 +84,8 @@ watchEffect(() => {
 const save = () => {
   if (!localExperience.value.employer || !localExperience.value.position || !localExperience.value.from_date || !localExperience.value.information) {
     snackbar.value = updateSnackBar('Please fill in all required fields.', 'error');
+  } else if (!isDateBefore(localEducation.value.from_date, localEducation.value.to_date)) {
+    snackbar.value = updateSnackBar('From Date must be before To Date.', 'error');
   } else {
   console.log("Save:", localExperience.value);
   emit("save", localExperience.value);
