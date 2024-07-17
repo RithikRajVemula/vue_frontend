@@ -34,15 +34,15 @@
           />
         </v-col>
         <v-col cols="6">
-          <TextBox
-            required
+          <DatePicker
             v-model:value="localEducation.from_date"
             title="From Date"
             id="from-date"
+            required
           />
         </v-col>
         <v-col cols="6">
-          <TextBox
+          <DatePicker
             v-model:value="localEducation.to_date"
             title="To Date"
             id="to-date"
@@ -59,9 +59,10 @@
 
 <script setup>
 import { ref, watchEffect, defineProps, defineEmits } from "vue";
-import { updateSnackBar } from '../../utils/utils';
+import { updateSnackBar, isDateBefore } from '../../utils/utils';
 import Snackbar from "../snackbar/Snack.vue"
 import TextBox from "../textbox/Textbox.vue"
+import DatePicker from "../datePicker/DatePicker.vue"
 
 const props = defineProps({
   education: {
@@ -88,6 +89,8 @@ watchEffect(() => {
 const save = () => {
   if (!localEducation.value.university_name || !localEducation.value.course || !localEducation.value.from_date) {
     snackbar.value = updateSnackBar('Please fill in all required fields.', 'error');
+  } else if (!isDateBefore(localEducation.value.from_date, localEducation.value.to_date)) {
+    snackbar.value = updateSnackBar('From Date must be before To Date.', 'error');
   } else {
     console.log('Save:', localEducation.value);
     emit('save', localEducation.value);
