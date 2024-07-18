@@ -84,7 +84,7 @@ watchEffect(() => {
 const save = () => {
   if (!localExperience.value.employer || !localExperience.value.position || !localExperience.value.from_date || !localExperience.value.information) {
     snackbar.value = updateSnackBar('Please fill in all required fields.', 'error');
-  } else if (!isDateBefore(localEducation.value.from_date, localEducation.value.to_date)) {
+  } else if (!isDateBefore(localExperience.value.from_date, localExperience.value.to_date)) {
     snackbar.value = updateSnackBar('From Date must be before To Date.', 'error');
   } else {
   console.log("Save:", localExperience.value);
