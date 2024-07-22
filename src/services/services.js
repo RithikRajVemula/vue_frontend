@@ -1,6 +1,6 @@
 import axios from "axios";
 
-var baseurl = "http://localhost:3200/";
+var baseurl = "http://ec2-3-144-100-222.us-east-2.compute.amazonaws.com:3200";
 export const apiClient = axios.create({
   baseURL: baseurl,
   headers: {
