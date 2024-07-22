@@ -1,16 +1,15 @@
-import axios from 'axios';
+import { apiClientForBlob } from "./services";
 
-const BASE_URL = 'http://localhost:3200';
 
 export default {
   getPdf(id) {
-    return axios.get(`${BASE_URL}/view-pdf/${id}`, {
-      responseType: 'blob',
-    });
+    return apiClientForBlob.get(`view-pdf/${id}`, {
+      responseType: 'blob', // This is important for handling binary data
+    })
   },
   downloadPdf(id) {
-    return axios.get(`${BASE_URL}/download-pdf/${id}`, {
-      responseType: 'blob',
+    return apiClientForBlob.get(`download-pdf/${id}`, {
+      responseType: 'blob', // This is important for handling binary data
     });
   },
 };

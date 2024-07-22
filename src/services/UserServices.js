@@ -1,40 +1,22 @@
-import apiClient from "./services";
+import { apiClient } from "./services";
 
 export default {
-  signup(user) {
-    return apiClient.post("users", user);
+  updateSkill(skill) {
+    return apiClient.put(`skills/${skill.id}`, skill);
   },
-  update(user) {
-    return apiClient.put(`users/${user.id}`, user);
+  getAllSkills() {
+    return apiClient.get("skills")
   },
-  signin(user) {
-    return apiClient.post("signin", user, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-        crossDomain: true,
-        Authorization:
-          "Basic " + btoa(user.email + ":" + user.password),
-      },
-    });
+  getSkillById(id) {
+    return apiClient.get(`skills/${id}`)
   },
-  logout() {
-    return apiClient.post("signout");
+  deleteSkill(id) {
+    return apiClient.delete(`skills/${id}`)
   },
-  getAllUsers() {
-    return apiClient.get("users")
+  addSkill(skill) {
+    return apiClient.post("skills", skill);
   },
-  getUserById(id) {
-    return apiClient.get(`users/${id}`)
-  },
-  deleteUser(id) {
-    return apiClient.delete(`users/${id}`)
-  },
-  addUser(user) {
-    return apiClient.post("users", user);
-  },
-  updateUser(user) {
-    return apiClient.put(`users/${user.id}`,user)
+  updateSkill(skill) {
+    return apiClient.put(`skills/${skill.id}`,skill)
   }
 };
