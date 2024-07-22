@@ -30,6 +30,10 @@
               <v-icon @click="viewResume(resume.id)" class="mx-2"
                 >mdi-eye</v-icon
               >
+              <!-- Download Button -->
+              <v-icon @click="downloadResume(resume.id)" class="mx-2"
+                >mdi-download</v-icon
+              >
             </v-col>
           </v-row>
         </v-card>
@@ -116,6 +120,23 @@ const editResume = (id) => {
   });
 };
 
+const downloadResume = async(id) => {
+ try {
+    const response = await PdfServices.downloadPdf(id);
+    const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+    const fileLink = document.createElement('a');
+
+    fileLink.href = fileURL;
+    fileLink.setAttribute('download', `resume_${id}.pdf`);
+    document.body.appendChild(fileLink);
+
+    fileLink.click();
+    document.body.removeChild(fileLink);
+  } catch (error) {
+    console.error('Failed to download PDF:', error);
+    snackbar.value = updateSnackBar('Failed to download PDF!', 'error');
+  }
+}
 
 const viewResume = (id) => {
   router.push({
