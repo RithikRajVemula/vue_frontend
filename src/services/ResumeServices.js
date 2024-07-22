@@ -22,5 +22,11 @@ export default {
   getResumeByUserId(id) {
     return apiClient.get(`resumes/user/${id}`)
 
+  },
+  addComment(req) {
+    return apiClient.post("resumeComments",req)
+  },
+  getResumeComments(id) {
+    return apiClient.get(`resumeComments/resume/${id}`)
   }
 };
