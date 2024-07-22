@@ -16,6 +16,9 @@
           style="margin-top: 36px; margin-right: 5px"
           >Edit</v-btn
         >
+        <v-btn @click="viewAsPdf" style="margin-top: 36px"
+          >View AI Generated Resume</v-btn
+        >
       </v-col>
     </v-row>
     <v-card class="mx-auto pa-12 pb-8" elevation="8" rounded="lg">
@@ -32,6 +35,7 @@ import ResumeServices from "../services/ResumeServices";
 import Snackbar from "../components/snackbar/Snack.vue";
 import { updateSnackBar } from "../utils/utils";
 import ResumeDetails from "../components/resumeDetails/ResumeDetails.vue";
+import PdfServices from '../services/PdfServices';
 
 const route = useRoute();
 const snackbar = ref({
@@ -91,6 +95,21 @@ const editResume = () => {
   router.push(`/edit-resume-details/${resumeId}`);
 };
 
+const viewAsPdf = async () => {
+  try {
+    const response = await PdfServices.getPdf(resumeDetails.value.id);
+    const fileURL = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+    const fileLink = document.createElement('a');
+    fileLink.href = fileURL;
+    fileLink.setAttribute('target', '_blank');
+    document.body.appendChild(fileLink);
+    fileLink.click();
+    document.body.removeChild(fileLink);
+  } catch (error) {
+    console.error('Failed to view PDF:', error);
+    snackbar.value = updateSnackBar('Failed to view PDF!', 'error');
+  }
+}
 
 onMounted(() => {
   const resumeId = route.params.id;
