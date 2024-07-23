@@ -39,6 +39,9 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row v-else>
+      <v-card style="padding: 30px; width: 100%;"> <h4>No resumes to display, please generated resume! </h4></v-card>
+    </v-row>
     <!-- Dialog for Delete Confirmation -->
     <v-dialog v-model="dialogDelete" persistent max-width="300">
       <v-card>
