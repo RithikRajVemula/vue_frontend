@@ -15,8 +15,7 @@ const user = ref(null);
 const title = ref("Resume Generation");
 const routes = [
   { name: "Create Resume", path: "/create-resume" },
-  { name: "My Resumes", path: "/my-resumes" },
-  { name: "About", path:"/about"}
+  { name: "My Resumes", path: "/my-resumes" }
 ];
 const adminRoutes = [
   { name: "Manage Users", path: "/manage-users" },
