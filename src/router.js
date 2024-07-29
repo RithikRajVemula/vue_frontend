@@ -42,6 +42,11 @@ const router = createRouter({
       name: "my-resumes",
       component: () => import("./views/AllResumes.vue"),
     },
+    {
+      path: "/edit-resume-details/:id",
+      name: "edit-resume-details",
+      component: () => import("./views/EditResumeDetails.vue"),
+    },
   ],
 });
 
