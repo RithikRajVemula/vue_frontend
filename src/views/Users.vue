@@ -7,6 +7,7 @@ import SnackBar from "../components/snackbar/Snack.vue";
 import { updateSnackBar } from "../utils/utils";
 import CreateUser from "../components/users/createUser/CreateUser.vue";
 import UpdateUser from "../components/users/editUser/UpdateUser.vue";
+import Loading from "../components/Loader/Loading.vue";
 
 const users = ref([]);
 const loader = ref(true);
