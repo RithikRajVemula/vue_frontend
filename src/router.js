@@ -24,10 +24,6 @@ const router = createRouter({
       component: () => import("./views/EditProfile.vue"),
     },
     {
-      path: "/home",
-      redirect: "/",
-    },
-    {
       path: "/create-resume",
       name: "create-resume",
       component: () => import("./views/CreateResume.vue"),
@@ -38,14 +34,38 @@ const router = createRouter({
       component: () => import("./views/ViewResume.vue"),
     },
     {
+      path: "/edit-resume-details/:id",
+      name: "edit-resume-details",
+      component: () => import("./views/EditResumeDetails.vue"),
+    },
+    {
       path: "/my-resumes/",
       name: "my-resumes",
       component: () => import("./views/AllResumes.vue"),
     },
     {
-      path: "/edit-resume-details/:id",
-      name: "edit-resume-details",
-      component: () => import("./views/EditResumeDetails.vue"),
+      path: "/all-resumes/",
+      name: "all-resumes",
+      component: () => import("./views/AllResumes.vue"),
+    },
+    {
+      path: "/manage-users/",
+      name: "manage-users",
+      component: () => import("./views/Users.vue"),
+    },
+    {
+      path: "/manage-skills/",
+      name: "manage-skills",
+      component: () => import("./views/Skills.vue"),
+    },
+    {
+      path: "/create-user/",
+      name: "create-user",
+      component: () => import("./components/users/createUser/CreateUser.vue"),
+    },
+    {
+      path: "/home",
+      redirect: "/",
     },
   ],
 });
