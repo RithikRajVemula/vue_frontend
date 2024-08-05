@@ -25,6 +25,7 @@
       <ResumeDetails :resumeDetails="resumeDetails" />
       <Snackbar :snackbar="snackbar" />
     </v-card>
+    <ResumeComments :comments="resumeDetails.comments" :resumeId="resumeDetails.id" />
   </v-container>
 </template>
 
@@ -36,6 +37,7 @@ import Snackbar from "../components/snackbar/Snack.vue";
 import { updateSnackBar } from "../utils/utils";
 import ResumeDetails from "../components/resumeDetails/ResumeDetails.vue";
 import PdfServices from '../services/PdfServices';
+import ResumeComments from "../components/resumeComments/ResumeComments.vue"
 
 const route = useRoute();
 const snackbar = ref({
