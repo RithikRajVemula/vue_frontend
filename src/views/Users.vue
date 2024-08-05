@@ -3,7 +3,6 @@ import { onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import UserServices from "../services/UserServices.js";
 import { ref } from "vue";
-import Loading from "../components/Loader/Loading.vue";
 import SnackBar from "../components/snackbar/Snack.vue";
 import { updateSnackBar } from "../utils/utils";
 import CreateUser from "../components/users/createUser/CreateUser.vue";
