@@ -17,13 +17,14 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Resume from "../components/Resume/Resume.vue";
 import ResumeServices from "../services/ResumeServices";
 import Snackbar from "../components/snackbar/Snack.vue";
 import { updateSnackBar } from "../utils/utils";
 
 const route = useRoute();
+const router = useRouter();
 const snackbar = ref({
   value: false,
   color: "",
@@ -74,11 +75,12 @@ const fetchResumeDetails = async (id) => {
 };
 
 const updateResume = () => {
-  // Logic to update resume and make API call
+  // Logic to create resume and make API call
   ResumeServices.updateResume({ ...resumeDetails.value })
     .then((res) => {
       console.log(res);
       snackbar.value = updateSnackBar("Resume updated Successfully", "success");
+      router.push({ name: 'view-resume-details', params: { id: route.params.id}})
     })
     .catch((err) => {
       console.log(err);

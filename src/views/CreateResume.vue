@@ -21,6 +21,7 @@ import Resume from "../components/Resume/Resume.vue";
 import ResumeServices from "../services/ResumeServices";
 import Snackbar from "../components/snackbar/Snack.vue";
 import { updateSnackBar } from "../utils/utils";
+import { useRouter } from "vue-router";
 
 const snackbar = ref({
   value: false,
@@ -40,6 +41,7 @@ const resumeDetails = ref({
   extraCurricular: [],
   honorAwards: [],
 });
+const router = useRouter();
 
 const createResume = async () => {
   // Logic to create resume and make API call
@@ -50,6 +52,7 @@ const createResume = async () => {
     .then((res) => {
       console.log(res);
       snackbar.value = updateSnackBar("Resume Created Successfully", "success");
+      router.push({ name: 'view-resume-details', params: { id: res.data.id}})
     })
     .catch((err) => {
       console.log(err);
