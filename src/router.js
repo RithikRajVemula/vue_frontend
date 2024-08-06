@@ -59,6 +59,11 @@ const router = createRouter({
       component: () => import("./views/Skills.vue"),
     },
     {
+      path: "/manage-resumes/",
+      name: "manage-resumes",
+      component: () => import("./views/Resumes.vue"),
+    },
+    {
       path: "/create-user/",
       name: "create-user",
       component: () => import("./components/users/createUser/CreateUser.vue"),
