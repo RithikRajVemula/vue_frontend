@@ -11,36 +11,21 @@
       </v-col>
     </v-row>
     <v-row v-if="resumes.length !== 0">
-      <v-col v-for="(resume,index) in resumes" :key="resume.id" cols="12">
-        <v-card class="mx-auto pa-4 pb-2" elevation="4" outlined>
-          <v-row>
-            <v-col cols="10">
-              <h3> Resume {{ index+1 }}</h3>
-            </v-col>
-            <v-col cols="2" class="text-end">
-              <!-- Edit Button -->
-              <v-icon @click="editResume(resume.id)" class="mx-2"
-                >mdi-pencil</v-icon
-              >
-              <!-- Delete Button -->
-              <v-icon @click="confirmDelete(resume.id)" class="mx-2"
-                >mdi-delete</v-icon
-              >
-              <!-- View Button -->
-              <v-icon @click="viewResume(resume.id)" class="mx-2"
-                >mdi-eye</v-icon
-              >
-              <!-- Download Button -->
-              <v-icon @click="downloadResume(resume.id)" class="mx-2"
-                >mdi-download</v-icon
-              >
-            </v-col>
-          </v-row>
-        </v-card>
+      <v-col v-for="(resume, index) in resumes" :key="resume.id" cols="6">
+        <user-resume-card
+          :resume="resume"
+          :index="index"
+          @edit="editResume"
+          @delete="confirmDelete"
+          @view="viewResume"
+          @download="downloadResume"
+        />
       </v-col>
     </v-row>
     <v-row v-else>
-      <v-card style="padding: 30px; width: 100%;"> <h4>No resumes to display, please generated resume! </h4></v-card>
+      <v-card style="padding: 30px; width: 100%;">
+        <h4>No resumes to display, please generate a resume!</h4>
+      </v-card>
     </v-row>
     <!-- Dialog for Delete Confirmation -->
     <v-dialog v-model="dialogDelete" persistent max-width="300">
@@ -70,6 +55,7 @@ import { useRouter } from "vue-router";
 import ResumeServices from "../services/ResumeServices";
 import { updateSnackBar } from "../utils/utils";
 import PdfServices from '../services/PdfServices';
+import UserResumeCard from '../components/userResumeCard/UserResumeCard.vue';
 
 const router = useRouter();
 const snackbar = ref({
@@ -80,7 +66,7 @@ const snackbar = ref({
 const resumes = ref([]);
 const dialogDelete = ref(false);
 const deleteLoading = ref(false);
-let resumeToDeleteId = null;
+let resumeToDeleteId = ref(null);
 const user = ref(null);
 const isAdmin = ref(false);
 const pageTitle = ref("");
@@ -118,7 +104,7 @@ const fetchResumes = async () => {
 
 const editResume = (id) => {
   router.push({
-    name: isAdmin.value ? "edit-resume-details" : "edit-resume-details",
+    name: "edit-resume-details",
     params: { id },
   });
 };
@@ -143,25 +129,25 @@ const downloadResume = async(id) => {
 
 const viewResume = (id) => {
   router.push({
-    name: isAdmin.value ? "view-resume-details" : "view-resume-details",
+    name: "view-resume-details",
     params: { id },
   });
 };
 
 const confirmDelete = (id) => {
-  resumeToDeleteId = id;
+  resumeToDeleteId.value = id;
   dialogDelete.value = true;
 };
 
 const deleteResume = async () => {
-  if (!resumeToDeleteId) return;
+  if (!resumeToDeleteId.value) return;
 
   try {
     deleteLoading.value = true;
-    await ResumeServices.deleteResume(resumeToDeleteId);
+    await ResumeServices.deleteResume(resumeToDeleteId.value);
     // Remove the deleted resume from the list
     resumes.value = resumes.value.filter(
-      (resume) => resume.id !== resumeToDeleteId
+      (resume) => resume.id !== resumeToDeleteId.value
     );
     snackbar.value = updateSnackBar("Resume deleted successfully.", "success");
   } catch (error) {
@@ -173,7 +159,7 @@ const deleteResume = async () => {
   } finally {
     deleteLoading.value = false;
     dialogDelete.value = false;
-    resumeToDeleteId = null;
+    resumeToDeleteId.value = null;
   }
 };
 
