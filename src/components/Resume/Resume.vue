@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
     <!-- Step 1: User Details -->
     <v-card v-if="currentStep === 1" class="mx-auto pa-12 pb-8" elevation="8" rounded="lg">
       <UserDetails :userDetails="resumeDetails.userDetails" />
@@ -35,7 +35,13 @@
       <HonorAwards :honorAwards="resumeDetails.honorAwards" />
     </v-card>
 
+    <!-- Step 8: Template Selection -->
     <v-card v-if="currentStep === 8" class="mx-auto pa-12 pb-8" elevation="8" rounded="lg">
+      <TemplateSelection v-model:selectedTemplate="resumeDetails.type" />
+    </v-card>
+
+    <!-- Step 9: Review Resume -->
+    <v-card v-if="currentStep === 9" class="mx-auto pa-12 pb-8" elevation="8" rounded="lg">
       <ReviewResume :resumeDetails="resumeDetails" />
     </v-card>
 
@@ -47,13 +53,12 @@
       <v-col cols="2">
         <v-btn v-if="currentStep < totalSteps" color="blue" block @click="nextStep">Next</v-btn>
         <div v-else>
-          <v-btn v-if="!edit"  color="green" @click="createResume">Create Resume</v-btn>
-          <v-btn v-else  color="green" @click="createResume">Update Resume</v-btn>
+          <v-btn v-if="!edit" color="green" @click="createResume">Create Resume</v-btn>
+          <v-btn v-else color="green" @click="createResume">Update Resume</v-btn>
         </div>
       </v-col>
     </v-row>
-    
-    </div>
+  </div>
 </template>
 
 <script setup>
@@ -65,13 +70,15 @@ import Projects from '../projects/Projects.vue';
 import ResumeSkills from '../skills/ResumeSkills.vue';
 import ExtraCurricular from '../extraCurriculars/ExtraCurricular.vue';
 import HonorAwards from '../honorAwards/HonorAwards.vue';
+import TemplateSelection from '../resumeTemplates/TemplateSelection.vue';
 import ReviewResume from '../reviewResume/ReviewResume.vue';
 
 const currentStep = ref(1);
-const totalSteps = 8; // Total number of steps/components
+const totalSteps = 9; // Updated total number of steps
+
 const props = defineProps({
   resumeDetails: {
-    type: Array,
+    type: Object,
     required: true
   },
   edit: {
@@ -98,6 +105,10 @@ const createResume = () => {
   emit("save");
 };
 
+// Initialize the type if it's not set
+if (!resumeDetails.value.type) {
+  resumeDetails.value.type = 1;
+}
 </script>
 
 <style>

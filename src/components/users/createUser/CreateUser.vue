@@ -36,7 +36,7 @@ const visible = ref(false);
 const step = ref(1);
 
 onMounted(() => {
-  if (localStorage.getItem("user") !== null) {
+  if (localStorage.getItem("user") == null) {
     router.push({ name: "home" });
   }
 });
