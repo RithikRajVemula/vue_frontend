@@ -10,7 +10,11 @@
         </h1>
       </v-col>
     </v-row>
-    <Resume :resumeDetails="resumeDetails" @save="updateResume" :edit="true" />
+    <Resume :resumeDetails="resumeDetails" @save="updateResume" :edit="true" v-if="!loading" />
+    <v-progress-circular v-else
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
     <Snackbar :snackbar="snackbar" />
   </v-container>
 </template>
@@ -39,7 +43,9 @@ const resumeDetails = ref({
   extraCurricular: [],
   honorAwards: [],
   id: "",
+  type: 1
 });
+const loading = ref(false);
 
 const fetchResumeDetails = async (id) => {
   try {
@@ -75,12 +81,14 @@ const fetchResumeDetails = async (id) => {
 };
 
 const updateResume = () => {
+  loading.value = true;
   // Logic to create resume and make API call
   ResumeServices.updateResume({ ...resumeDetails.value })
     .then((res) => {
       console.log(res);
       snackbar.value = updateSnackBar("Resume updated Successfully", "success");
       router.push({ name: 'view-resume-details', params: { id: route.params.id}})
+      loading.value = false;
     })
     .catch((err) => {
       console.log(err);
@@ -88,6 +96,7 @@ const updateResume = () => {
         err?.response?.data?.message || "Failed to update Resume!",
         "error"
       );
+      loading.value = false;
     });
 };
 
