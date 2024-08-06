@@ -19,7 +19,7 @@ const routes = [
 ];
 const adminRoutes = [
   { name: "Manage Users", path: "/manage-users" },
-  { name: "Manage Resume's", path: "/all-resumes" },
+  { name: "Manage Resume's", path: "/manage-resumes" },
   { name: "Manage Skills", path: "/manage-skills" },
 ];
 
