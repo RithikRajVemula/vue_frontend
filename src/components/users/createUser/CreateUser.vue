@@ -72,9 +72,9 @@ async function signup() {
   try {
     if (validateStep1() && validateStep2()) {
       const { data } = await UserServices.signup(user.value);
-      window.localStorage.setItem("user", JSON.stringify(data));
       if(isRegistration.value){
         snackbar.value = updateSnackBar("Signup successful!", "green");
+        window.localStorage.setItem("user", JSON.stringify(data));
         router.push({ name: "home" });
       } else {
         snackbar.value = updateSnackBar("User is Created Successfully!", "green");
