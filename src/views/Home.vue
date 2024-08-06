@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
+import AllResumes from "./AllResumes.vue"
 
 async function isUserLoggedIn() {
   const router = useRouter();
@@ -21,6 +22,6 @@ onMounted(isUserLoggedIn);
 
 <template>
   <v-container>
-    <MyStories />
+    <AllResumes />
   </v-container>
 </template>

@@ -10,13 +10,17 @@
         </h1>
       </v-col>
     </v-row>
-    <Resume :resumeDetails="resumeDetails" @save="createResume" />
+    <Resume :resumeDetails="resumeDetails" @save="createResume" v-if="!loading" />
+    <v-progress-circular v-else
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
     <Snackbar :snackbar="snackbar" />
   </v-container>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import Resume from "../components/Resume/Resume.vue";
 import ResumeServices from "../services/ResumeServices";
 import Snackbar from "../components/snackbar/Snack.vue";
@@ -40,26 +44,28 @@ const resumeDetails = ref({
   resumeSkills: [],
   extraCurricular: [],
   honorAwards: [],
+  type: 1
 });
+const loading = ref(false);
 const router = useRouter();
 
 const createResume = async () => {
-  // Logic to create resume and make API call
-  ResumeServices.addResume({
-    ...resumeDetails.value,
-    userId: resumeDetails.value.userDetails.id,
-  })
-    .then((res) => {
-      console.log(res);
-      snackbar.value = updateSnackBar("Resume Created Successfully", "success");
-      router.push({ name: 'view-resume-details', params: { id: res.data.id}})
-    })
-    .catch((err) => {
-      console.log(err);
-      snackbar.value = updateSnackBar(
-        err?.response?.data?.message || "Failed to create Resume!",
-        "error"
-      );
+  loading.value = true;
+  try {
+    const res = await ResumeServices.addResume({
+      ...resumeDetails.value,
+      userId: resumeDetails.value.userDetails.id,
     });
+    snackbar.value = updateSnackBar("Resume Created Successfully", "success");
+    router.push({ name: 'view-resume-details', params: { id: res.data.id } });
+  } catch (err) {
+    console.error(err);
+    snackbar.value = updateSnackBar(
+      err?.response?.data?.message || "Failed to create Resume!",
+      "error"
+    );
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
